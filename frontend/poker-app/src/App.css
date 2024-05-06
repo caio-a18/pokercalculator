@@ -1,0 +1,31 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.App-header {
+  background-color: #282c34;
+  color: white;
+  padding: 20px;
+  font-size: 24px;
+}
+
+.player, .community-cards {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input {
+  margin: 5px;
+  padding: 8px;
+  font-size: 16px;
+}
+
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
