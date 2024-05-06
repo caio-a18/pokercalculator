@@ -33,8 +33,6 @@ class PokerGame:
         except:
             print("error removing from diamonds") 
 
-
-<<<<<<< HEAD
     def check_current_position(self, cards: list[str], community_cards):
         if self.check_for_royal_flush(cards, community_cards):
             return 9
@@ -98,7 +96,6 @@ class PokerGame:
 
         return probabilities
 
-=======
     def check_current_position(self, cards: list[str], community_cards: list[str], other_hands: list[list[str]]):
         self.update_cards(cards)
         self.update_cards(community_cards)
@@ -108,8 +105,6 @@ class PokerGame:
     def calculate_odds(self, cards, other_hands):
         return
 
-
->>>>>>> f883ba904673ecd9574369dfcab6f65e4f1a5952
     def check_for_royal_flush(self, cards, community_cards):
         combined_list = cards + community_cards
         royal_hearts = ['AH', 'KH', 'QH', 'JH', 'TH']
