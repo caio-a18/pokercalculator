@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import cardsData from './assets/cards.json';
 
-// Dropdown and Image Display Component
-const CardSelect = ({ label, onCardChange }) => {
+const CardSelect = ({ label, onCardChange, cardsData }) => {
   const [selectedCard, setSelectedCard] = useState('');
 
   const handleCardChange = (event) => {
-    setSelectedCard(event.target.value);
-    onCardChange(event.target.value);
+    const selectedImage = cardsData.find(card => card.code === event.target.value).image;
+    setSelectedCard(selectedImage);
+    onCardChange(selectedImage);
   };
 
   return (
@@ -17,7 +17,7 @@ const CardSelect = ({ label, onCardChange }) => {
       <select onChange={handleCardChange} value={selectedCard}>
         <option value="">Select a Card</option>
         {cardsData.map(card => (
-          <option key={card.code} value={card.image}>{card.code}</option>
+          <option key={card.code} value={card.code}>{card.code}</option>
         ))}
       </select>
       {selectedCard && (
@@ -27,33 +27,43 @@ const CardSelect = ({ label, onCardChange }) => {
   );
 };
 
-// Player Card Input Component
-const PlayerInput = ({ id }) => {
+const PlayerInput = ({ id, cardsData }) => {
   return (
     <div className="player">
       <h3>Player {id}</h3>
-      <CardSelect label="Card 1" onCardChange={() => {}} />
-      <CardSelect label="Card 2" onCardChange={() => {}} />
+      <CardSelect label="Card 1" onCardChange={() => {}} cardsData={cardsData} />
+      <CardSelect label="Card 2" onCardChange={() => {}} cardsData={cardsData} />
     </div>
   );
 };
 
-// Community Cards Input Component
-const CommunityCards = () => {
+const CommunityCards = ({ cardsData }) => {
   return (
     <div className="community-cards">
-      <CardSelect label="Flop 1" onCardChange={() => {}} />
-      <CardSelect label="Flop 2" onCardChange={() => {}} />
-      <CardSelect label="Flop 3" onCardChange={() => {}} />
-      <CardSelect label="Turn" onCardChange={() => {}} />
-      <CardSelect label="River" onCardChange={() => {}} />
+      <CardSelect label="Flop 1" onCardChange={() => {}} cardsData={cardsData} />
+      <CardSelect label="Flop 2" onCardChange={() => {}} cardsData={cardsData} />
+      <CardSelect label="Flop 3" onCardChange={() => {}} cardsData={cardsData} />
+      <CardSelect label="Turn" onCardChange={() => {}} cardsData={cardsData} />
+      <CardSelect label="River" onCardChange={() => {}} cardsData={cardsData} />
     </div>
   );
 };
 
-// Main App Component
 function App() {
   const [numPlayers, setNumPlayers] = useState(2);
+  const [cardsData, setCardsData] = useState([]);
+
+  useEffect(() => {
+    fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=52')
+      .then(response => response.json())
+      .then(data => {
+        const formattedData = data.cards.map(card => ({
+          code: card.code,
+          image: card.image
+        }));
+        setCardsData(formattedData);
+      });
+  }, []);
 
   return (
     <div className="App">
@@ -68,10 +78,10 @@ function App() {
       </header>
       <div className="player-inputs">
         {Array.from({ length: numPlayers }, (_, i) => (
-          <PlayerInput key={i} id={i + 1} />
+          <PlayerInput key={i} id={i + 1} cardsData={cardsData} />
         ))}
       </div>
-      <CommunityCards />
+      <CommunityCards cardsData={cardsData} />
       <button onClick={() => alert("Calculation logic not implemented")}>Calculate Odds</button>
     </div>
   );
