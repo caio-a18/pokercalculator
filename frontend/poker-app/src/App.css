@@ -8,24 +8,52 @@
   color: white;
   padding: 20px;
   font-size: 24px;
+  display: flex; /* Ensures the content is flexibly aligned */
+  flex-direction: column; /* Aligns children elements in a column */
+  align-items: center; /* Centers children horizontally */
 }
 
-.player, .community-cards {
-  margin: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.App-header select {
+  width: 3%; /* Reduces the width to 40% of its parent's width */
+  padding: 8px; /* Maintains padding inside the select box */
+  margin-top: 8px; /* Adds some space above the select box */
+  font-size: 16px; /* Optional: Adjusts the font size of the select text */
 }
 
-input {
-  margin: 5px;
-  padding: 8px;
-  font-size: 16px;
-}
-
-button {
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+}
+
+.column {
+  margin: 0 20px;
+  flex: 1;
+}
+
+.type1 {
+  flex: 2; /* More space for dropdowns and labels */
+}
+
+.type2 {
+  flex: 1; /* Less space, just enough for the card images */
+}
+
+select {
+  padding: 8px;
+  margin-top: 8px;
+  width: 100%;
+  font-size: 20px;
+}
+
+img {
+  max-width: 200px; /* Increased from 100px to 200px */
+  height: auto;
+}
+
+.player-title {
+  font-size: 28px; /* Set the size of the text */
+  font-weight: bold; /* Make the text bold */
+  margin-bottom: 10px; /* Space between the title and dropdowns */
 }
