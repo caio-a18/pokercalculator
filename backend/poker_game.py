@@ -33,6 +33,68 @@ class PokerGame:
         except:
             print("error removing from diamonds") 
 
+    def check_current_position(self, cards: list[str], community_cards):
+        if self.check_for_royal_flush(cards, community_cards):
+            return 9
+        if self.check_for_straight_flush(cards, community_cards):
+            return 8
+        if self.check_for_four_of_a_kind(cards, community_cards):
+            return 7
+        if self.check_for_full_house(cards, community_cards):
+            return 6
+        if self.check_for_flush(cards, community_cards):
+            return 5
+        if self.check_for_straight(cards, community_cards):
+            return 4
+        if self.check_for_three_of_a_kind(cards, community_cards):
+            return 3
+        if self.check_for_two_pair(cards, community_cards):
+            return 2
+        if self.check_for_pair(cards, community_cards):
+            return 1
+        return 0
+
+
+    def calculate_odds(self, all_hands, community_cards, num_simulations):
+        wins = [0] * len(all_hands)
+        
+        for hand in all_hands:
+            self.update_cards(hand)
+        
+        if len(community_cards) > 0:
+            self.update_cards(community_cards)
+
+        for _ in range(num_simulations):
+            
+            best_hand_value = -1
+            winning_players = []
+
+            for index, hand in enumerate(all_hands):
+                full_hand = hand + community_cards
+
+                hand_strength = self.check_current_position(hand, community_cards)
+
+                if hand_strength > best_hand_value:
+                    best_hand_value = hand_strength
+                    winning_players = [index]
+                elif hand_strength == best_hand_value:
+                    
+                    '''
+                    TODO: Here will be where I implement logic to account for tiebreakers in straights and what not.
+                    Should follow this format:
+                    if best_hand_value == 8:
+                        which full_hand has high card?
+                        could write a function that takes full hand and checks for high card. would have to keep track of high card as variable.
+                    '''
+
+                    winning_players.append(index)
+
+            for winner in winning_players:
+                wins[winner] += 1
+
+        probabilities = [win / float(num_simulations) for win in wins]
+
+        return probabilities
 
     def check_current_position(self, cards: list[str], community_cards: list[str], other_hands: list[list[str]]):
         self.update_cards(cards)
@@ -42,7 +104,6 @@ class PokerGame:
 
     def calculate_odds(self, cards, other_hands):
         return
-
 
     def check_for_royal_flush(self, cards, community_cards):
         combined_list = cards + community_cards
